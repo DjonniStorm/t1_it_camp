@@ -1,43 +1,18 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from 'react-router-dom';
-import { MantineProvider } from '@mantine/core';
-import { createRoot } from 'react-dom/client';
-import { lazy, StrictMode } from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@app/providers/Mantine';
+import { Router } from '@app/providers/Router';
+import { queryClient } from '@shared/lib';
+import ReactDOM from 'react-dom/client';
 import '@mantine/core/styles.css';
-import App from './App.tsx';
-import './index.css';
-import { MainPage } from './pages/main/MainPage.tsx';
+import React from 'react';
+import '@app/styles/index.css';
 
-const TaskDetailsPage = lazy(() => import('./pages/TaskPage.tsx'));
-
-const routes = createBrowserRouter([
-  {
-    element: <App />,
-    path: '/',
-    children: [
-      {
-        element: <MainPage />,
-        index: true,
-      },
-      {
-        path: 'task/:id',
-        element: <TaskDetailsPage />,
-      },
-      {
-        path: '*',
-        element: <Navigate to={'/'} />,
-      },
-    ],
-  },
-]);
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <MantineProvider>
-      <RouterProvider router={routes} />
-    </MantineProvider>
-  </StrictMode>,
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <Router />
+      </ThemeProvider>
+    </QueryClientProvider>
+  </React.StrictMode>,
 );
