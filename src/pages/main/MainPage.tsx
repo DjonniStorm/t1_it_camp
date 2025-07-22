@@ -1,5 +1,5 @@
-import { TaskFilter } from '../organisms/TaskFilter';
-import { TaskList } from '../organisms/TaskList';
+import { TaskFilter } from '../../components/organisms/TaskFilter';
+import { TaskList } from '../../components/organisms/TaskList';
 
 export const MainPage = (): React.JSX.Element => {
   return (
