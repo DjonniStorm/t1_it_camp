@@ -1,6 +1,6 @@
 import { useTasksContext } from '@/hooks/use-task-context';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { TaskDetails } from '../molecules/TaskDetails';
+import { TaskDetails } from '../components/molecules/TaskDetails';
 import type { Task } from '@/@types/types';
 import { startTransition } from 'react';
 
@@ -12,8 +12,6 @@ const TaskPage = (): React.JSX.Element => {
   const path: SearchParams = useParams();
   const { tasks, addTask } = useTasksContext();
   const navigate = useNavigate();
-  // debugger;
-  // console.log(tasks, Array.isArray(tasks));
   const currentTask = tasks.find((t) => t.id === path.id);
   if (!path.id || !currentTask) {
     return <Navigate to={'/'} />;

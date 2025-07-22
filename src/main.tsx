@@ -9,9 +9,9 @@ import { lazy, StrictMode } from 'react';
 import '@mantine/core/styles.css';
 import App from './App.tsx';
 import './index.css';
-import { MainPage } from './components/pages/MainPage.tsx';
+import { MainPage } from './pages/main/MainPage.tsx';
 
-const TaskDetailsPage = lazy(() => import('./components/pages/TaskPage.tsx'));
+const TaskDetailsPage = lazy(() => import('./pages/TaskPage.tsx'));
 
 const routes = createBrowserRouter([
   {
