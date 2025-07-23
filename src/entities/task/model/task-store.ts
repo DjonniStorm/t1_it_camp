@@ -18,14 +18,14 @@ export class TasksStore {
     makeAutoObservable(this);
   }
 
-  fetchTasks = async () => {
+  fetchTasks = async (ac: AbortSignal | undefined) => {
     console.log(this);
     runInAction(() => {
       this.isLoading = true;
       this.error = null;
     });
     try {
-      const data = await tasksApi.getTasks();
+      const data = await tasksApi.getTasks(ac);
       runInAction(() => {
         this.tasks = data;
       });
@@ -40,13 +40,13 @@ export class TasksStore {
     }
   };
 
-  fetchTaskById = async (id: string) => {
+  fetchTaskById = async (id: string, ac: AbortSignal | undefined) => {
     runInAction(() => {
       this.isLoading = true;
       this.error = null;
     });
     try {
-      const data = await tasksApi.getTaskById(id);
+      const data = await tasksApi.getTaskById(id, ac);
       runInAction(() => {
         this.isLoading = false;
       });

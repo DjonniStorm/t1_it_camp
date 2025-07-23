@@ -9,6 +9,7 @@ interface RequestOptions {
 export class ApiClient {
   private async request<T>(
     endpoint: string,
+    ac: AbortSignal | undefined,
     options: RequestOptions = {},
   ): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
@@ -25,8 +26,7 @@ export class ApiClient {
       config.body = JSON.stringify(options.body);
     }
 
-    const response = await fetch(url, config);
-
+    const response = await fetch(url, { ...config, signal: ac });
     if (!response.ok) {
       const error = await response.json().catch(() => ({
         error: 'Network Error',
@@ -50,20 +50,20 @@ export class ApiClient {
     return response.json();
   }
 
-  async get<T>(endpoint: string): Promise<T> {
-    return this.request<T>(endpoint, { method: 'GET' });
+  async get<T>(endpoint: string, signal: AbortSignal | undefined): Promise<T> {
+    return this.request<T>(endpoint, signal, { method: 'GET' });
   }
 
   async post<T>(endpoint: string, data: unknown): Promise<T> {
-    return this.request<T>(endpoint, { method: 'POST', body: data });
+    return this.request<T>(endpoint, undefined, { method: 'POST', body: data });
   }
 
   async put<T>(endpoint: string, data: unknown): Promise<T> {
-    return this.request<T>(endpoint, { method: 'PUT', body: data });
+    return this.request<T>(endpoint, undefined, { method: 'PUT', body: data });
   }
 
   async delete<T>(endpoint: string): Promise<T> {
-    return this.request<T>(endpoint, { method: 'DELETE' });
+    return this.request<T>(endpoint, undefined, { method: 'DELETE' });
   }
 }
 

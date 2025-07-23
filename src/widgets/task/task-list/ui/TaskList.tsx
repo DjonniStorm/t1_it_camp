@@ -11,9 +11,13 @@ export const TaskList = observer((): React.JSX.Element => {
     tasksStore;
 
   useEffect(() => {
+    const ab = new AbortController();
     if (!tasks || tasks.length == 0) {
-      fetchTasks();
+      fetchTasks(ab.signal);
     }
+    return () => {
+      ab.abort();
+    };
   }, [tasks, fetchTasks]);
   console.log(tasks);
 
