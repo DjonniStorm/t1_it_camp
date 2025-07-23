@@ -11,6 +11,7 @@ export const TaskEditPage = (): React.JSX.Element => {
   const [task, setTask] = useState<Task | null>(null);
 
   useEffect(() => {
+    const ac = new AbortController();
     const loadTask = async () => {
       if (state) {
         setTask(state as Task);
@@ -23,7 +24,7 @@ export const TaskEditPage = (): React.JSX.Element => {
 
       if (tasksId) {
         try {
-          const fetchedTask = await fetchTaskById(tasksId);
+          const fetchedTask = await fetchTaskById(tasksId, ac.signal);
           if (fetchedTask) {
             setTask(fetchedTask);
           } else {
@@ -39,6 +40,10 @@ export const TaskEditPage = (): React.JSX.Element => {
     };
 
     loadTask().then(() => console.log('loaded'));
+
+    return () => {
+      ac.abort();
+    };
   }, [state, tasksId, error, navigate, fetchTaskById]);
 
   const handleUpdateTask = async (task: Task) => {
