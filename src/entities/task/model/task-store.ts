@@ -64,17 +64,17 @@ export class TasksStore {
 
   createTask = async (task: Task) => {
     await tasksApi.createTask(task);
-    this.fetchTasks();
+    this.fetchTasks(undefined);
   };
 
   updateTask = async (task: Task) => {
     await tasksApi.updateTask(task);
-    this.fetchTasks();
+    this.fetchTasks(undefined);
   };
 
   deleteTask = async (id: string) => {
     await tasksApi.deleteTask(id);
-    this.fetchTasks();
+    this.fetchTasks(undefined);
   };
 
   setFilters = (f: Partial<FilterParams>) => {
