@@ -1,14 +1,15 @@
-import { ThemeProvider } from '@app/providers/Mantine';
-import { Router } from '@app/providers/Router';
+import { QueryProvider, Router, ThemeProvider } from '@app/providers';
 import ReactDOM from 'react-dom/client';
 import '@mantine/core/styles.css';
-import React from 'react';
 import '@app/styles/index.css';
+import React from 'react';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <Router />
-    </ThemeProvider>
+    <QueryProvider>
+      <ThemeProvider>
+        <Router />
+      </ThemeProvider>
+    </QueryProvider>
   </React.StrictMode>,
 );

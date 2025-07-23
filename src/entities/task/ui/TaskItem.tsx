@@ -11,12 +11,19 @@ import {
 } from '@mantine/core';
 import React from 'react';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
-import { getBadgeColor } from '@entities/task';
+import { getBadgeColor, safeBadgeColor } from '@entities/task';
 import type { Task } from '@shared/types';
 
 type TaskItemProps = Task & {
   onEditClick: (id: string) => void;
   onDeleteClick: (id: string) => void;
+};
+
+const badgeColor = (v: string) => {
+  if (safeBadgeColor(v)) {
+    return getBadgeColor(v);
+  }
+  return 'black';
 };
 
 export const TaskItem = ({
@@ -36,9 +43,9 @@ export const TaskItem = ({
       <Card.Section py="xs" px="xs">
         <Flex justify="space-between">
           <Flex gap="md">
-            <Badge color={getBadgeColor(status)}>{status}</Badge>
-            <Badge color={getBadgeColor(priority)}>{priority}</Badge>
-            <Badge color={getBadgeColor(category)}>{category}</Badge>
+            <Badge color={badgeColor(status)}>{status}</Badge>
+            <Badge color={badgeColor(priority)}>{priority}</Badge>
+            <Badge color={badgeColor(category)}>{category}</Badge>
           </Flex>
           <Group align="center" justify="center">
             <ActionIcon

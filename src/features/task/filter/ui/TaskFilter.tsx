@@ -10,7 +10,6 @@ import { observer } from 'mobx-react-lite';
 
 export const TaskFilter = observer((): React.JSX.Element => {
   const { setFilters } = tasksStore;
-  console.log('TaskFilter render');
 
   const handleStatusChange = (value: string | null) => {
     setFilters({

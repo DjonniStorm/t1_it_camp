@@ -1,25 +1,25 @@
 import { apiClient } from './api';
 import { AVAILABLE_ENDPOINTS } from '@shared/config';
-import type { Task } from '@shared/types';
+import { TasksArrayScheme, TaskScheme, type Task } from '@shared/types';
 
 export const tasksApi = {
-  getTasks: (signal: AbortSignal | undefined): Promise<Task[]> => {
-    return apiClient.get<Task[]>(AVAILABLE_ENDPOINTS.default, signal);
+  getTasks: (signal?: AbortSignal): Promise<Task[]> => {
+    return apiClient.get(AVAILABLE_ENDPOINTS.default, signal, TasksArrayScheme);
   },
 
-  getTaskById: (id: string, signal: AbortSignal | undefined): Promise<Task> => {
-    return apiClient.get<Task>(AVAILABLE_ENDPOINTS.byId(id), signal);
+  getTaskById: (id: string, signal?: AbortSignal): Promise<Task> => {
+    return apiClient.get(AVAILABLE_ENDPOINTS.byId(id), signal, TaskScheme);
   },
 
-  createTask: (data: Task): Promise<Task> => {
-    return apiClient.post<Task>(AVAILABLE_ENDPOINTS.default, data);
+  createTask: (task: Task): Promise<Task> => {
+    return apiClient.post(AVAILABLE_ENDPOINTS.default, task, TaskScheme);
   },
 
-  updateTask: (data: Task): Promise<Task> => {
-    return apiClient.put<Task>(AVAILABLE_ENDPOINTS.default, data);
+  updateTask: (id: string, task: Partial<Task>): Promise<Task> => {
+    return apiClient.patch(AVAILABLE_ENDPOINTS.byId(id), task, TaskScheme);
   },
 
   deleteTask: (id: string): Promise<void> => {
-    return apiClient.delete<void>(AVAILABLE_ENDPOINTS.byId(id));
+    return apiClient.delete(AVAILABLE_ENDPOINTS.byId(id));
   },
 };
