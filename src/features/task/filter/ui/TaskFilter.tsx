@@ -32,40 +32,38 @@ export const TaskFilter = observer((): React.JSX.Element => {
 
   return (
     <>
-      <div className="pb-4">
-        <Flex gap="md" align="center" justify="end">
-          <Group>
-            <Text>Статус:</Text>
-            <Select
-              placeholder="выбрать статус"
-              data={availableStatusColors}
-              onChange={handleStatusChange}
-              clearable
-              allowDeselect
-            />
-          </Group>
-          <Group>
-            <Text>Приоритет:</Text>
-            <Select
-              placeholder="выбрать приоритет"
-              data={availablePriorityColors}
-              onChange={handlePriorityChange}
-              clearable
-              allowDeselect
-            />
-          </Group>
-          <Group>
-            <Text>Категория:</Text>
-            <Select
-              placeholder="выбрать категорию"
-              data={availableCategoryColors}
-              onChange={handleCategoryChange}
-              clearable
-              allowDeselect
-            />
-          </Group>
-        </Flex>
-      </div>
+      <Flex className="pb-4" gap="md" align="center" justify="end" pr="md">
+        <Group>
+          <Text>Статус:</Text>
+          <Select
+            placeholder="выбрать статус"
+            data={availableStatusColors}
+            onChange={handleStatusChange}
+            clearable
+            allowDeselect
+          />
+        </Group>
+        <Group>
+          <Text>Приоритет:</Text>
+          <Select
+            placeholder="выбрать приоритет"
+            data={availablePriorityColors}
+            onChange={handlePriorityChange}
+            clearable
+            allowDeselect
+          />
+        </Group>
+        <Group>
+          <Text>Категория:</Text>
+          <Select
+            placeholder="выбрать категорию"
+            data={availableCategoryColors}
+            onChange={handleCategoryChange}
+            clearable
+            allowDeselect
+          />
+        </Group>
+      </Flex>
     </>
   );
 });

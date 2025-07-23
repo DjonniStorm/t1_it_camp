@@ -4,6 +4,7 @@ import {
   Card,
   Flex,
   Group,
+  Space,
   Spoiler,
   Text,
   Title,
@@ -25,6 +26,8 @@ export const TaskItem = ({
   status,
   priority,
   category,
+  createdAt,
+  updatedAt,
   onEditClick,
   onDeleteClick,
 }: TaskItemProps): React.JSX.Element => {
@@ -69,6 +72,12 @@ export const TaskItem = ({
         </Spoiler>
       )}
       {!description && <span className="opacity-80 italic">нет описания</span>}
+      <Space p="sm">
+        <Group gap={5}>
+          <Badge bg="indigo">{createdAt}</Badge>
+          <Badge bg="grape">{updatedAt}</Badge>
+        </Group>
+      </Space>
     </Card>
   );
 };

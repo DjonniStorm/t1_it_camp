@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '@shared/config';
+
 interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   headers?: Record<string, string>;
@@ -9,7 +11,7 @@ export class ApiClient {
     endpoint: string,
     options: RequestOptions = {},
   ): Promise<T> {
-    const url = `${endpoint}`;
+    const url = `${API_BASE_URL}${endpoint}`;
     console.log(endpoint);
     const config: RequestInit = {
       method: options.method || 'GET',

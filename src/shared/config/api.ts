@@ -1,6 +1,4 @@
-// export const API_BASE_URL = 'https://back-gules-chi.vercel.app';
-// export const API_BASE_URL = 'https://back-gules-chi.vercel.app';
-
+export const API_BASE_URL = 'https://todo-back-henna.vercel.app';
 const defaultTasksUrl = '/api/tasks';
 
 export const AVAILABLE_ENDPOINTS = {

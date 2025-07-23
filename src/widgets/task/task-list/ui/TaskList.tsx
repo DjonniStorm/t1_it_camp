@@ -91,14 +91,14 @@ export const TaskList = observer((): React.JSX.Element => {
 
   return (
     <>
-      <Grid justify="center" gutter="lg">
+      <Grid justify="center" gutter="lg" overflow="hidden">
         {filteredTasks.length === 0 && <>все сделано!</>}
         {filteredTasks.length !== 0 &&
           filteredTasks.map((el) => (
             <React.Fragment key={el.id}>
-              <Grid.Col span={{ base: 10, md: 5, lg: 3.5 }}>
+              <Grid.Col span={{ base: 12, sm: 6, md: 4, lg: 3.5 }}>
                 <TaskItem
-                  onDeleteClick={deleteTask}
+                  onDeleteClick={handleDelete}
                   onEditClick={() => taskClick(el)}
                   {...el}
                 />

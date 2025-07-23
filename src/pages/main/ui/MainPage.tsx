@@ -4,7 +4,7 @@ import { TaskList } from '@widgets/task/task-list';
 
 export const MainPage = (): React.JSX.Element => {
   return (
-    <main className="flex-1 p-5 w-full">
+    <main className="flex-1 pt-2">
       <TaskFilter />
       <TaskList />
       <TaskCreate className="absolute bottom-0 right-0" />
