@@ -4,9 +4,10 @@
 
 > кратко
 
-- [x] Сделал простенький API, вот тут можно посмотреть методы (если интересно) https://todo-back-henna.vercel.app/docs/index.html
+- [x] Сделал простенький API, вот тут можно посмотреть методы (если интересно) [swagger](https://todo-back-two-ivory.vercel.app/docs/index.html)
 - [x] Перевел все на FSD, не уверен, что правильно
 
 > длинно
 
-- [ ] Попробовал привязать реактивность MobX на кэш React-Query, не вышло, поэтому просто плохая реализация запросов к API (https://github.com/js2me/mobx-tanstack-query)[:(]
+- [ ] Попробовал привязать реактивность MobX на кэш React-Query, не вышло, поэтому просто плохая реализация запросов к API [:(](https://www.npmjs.com/package/@mobx-ecosystem/mobx-react-query?activeTab=dependencies)
+- [x] Очент много ошибок на vercel было с деплоем бэка, в итоге перешел на Render. Типо vercel не мог обновлять файл с задачами. Потратил на это пару дней
