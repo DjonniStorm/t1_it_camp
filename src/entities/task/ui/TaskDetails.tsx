@@ -1,7 +1,7 @@
 import { Button, Flex, Group, NativeSelect, TextInput } from '@mantine/core';
 import React from 'react';
 import { useForm } from '@mantine/form';
-import type { Task } from '@shared/types';
+import type { Task, Status, Priority, Category } from '@shared/types';
 import { categoryColors, priorityColors, statusColors } from '@shared/config';
 
 type TaskDetailsProps = {
@@ -20,7 +20,13 @@ const statusColorsList = [unknownText, ...availableStatusColors];
 const categoryColorsList = [unknownText, ...availableCategoryColors];
 const priorityColorsList = [unknownText, ...availablePriorityColors];
 
-type TaskEditable = Omit<Task, 'id' | 'createdAt' | 'updatedAt'>;
+type FormValues = {
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  category: string;
+};
 
 export const TaskDetails = ({
   initialValue,
@@ -28,7 +34,7 @@ export const TaskDetails = ({
   onCancel,
 }: TaskDetailsProps): React.JSX.Element => {
   console.log(initialValue, initialValue?.status ?? undefined);
-  const form = useForm({
+  const form = useForm<FormValues>({
     mode: 'uncontrolled',
     initialValues: {
       title: initialValue?.title ?? '',
@@ -50,13 +56,16 @@ export const TaskDetails = ({
     },
   });
 
-  const handleSubmit = (e: TaskEditable) => {
+  const handleSubmit = (values: FormValues) => {
     const date = new Date();
-    const task: Task = {
-      ...e,
+    const task = {
+      ...values,
       id: initialValue?.id || crypto.randomUUID(),
       createdAt: initialValue?.createdAt || date.toLocaleDateString(),
       updatedAt: date.toLocaleDateString(),
+      status: values.status as Status,
+      priority: values.priority as Priority,
+      category: values.category as Category,
     };
     onSubmit(task);
   };
