@@ -43,7 +43,7 @@ const useUpdateTask = () => {
     mutationFn: async ({ id, task }: { id: string; task: Partial<Task> }) => {
       return tasksApi.updateTask(id, task);
     },
-    onSuccess: async (data, variables) => {
+    onSuccess: async (_, variables) => {
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY],
