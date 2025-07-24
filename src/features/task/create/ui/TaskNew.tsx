@@ -1,17 +1,20 @@
-import { TaskDetails, tasksStore } from '@entities/task';
-import { Flex } from '@mantine/core';
-import type { Task } from '@shared/types';
+import { TaskDetails, useAddTask } from '@entities/task';
 import { useNavigate } from 'react-router-dom';
+import type { Task } from '@shared/types';
+import { Flex } from '@mantine/core';
 
 export const TaskNew = (): React.JSX.Element => {
   const navigate = useNavigate();
-  const { createTask } = tasksStore;
+  const { mutateAsync, isError, error } = useAddTask();
   const handleCancel = () => {
     navigate('/');
   };
   const handleSubmit = async (t: Task) => {
-    await createTask(t);
-    await new Promise((res) => setTimeout(res, 500));
+    await mutateAsync(t);
+    if (isError) {
+      console.error('Error adding task', error);
+      return;
+    }
     navigate('/');
   };
   return (

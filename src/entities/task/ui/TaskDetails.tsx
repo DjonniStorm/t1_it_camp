@@ -1,5 +1,5 @@
 import { Button, Flex, Group, NativeSelect, TextInput } from '@mantine/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import type { Task, Status, Priority, Category } from '@shared/types';
 import { categoryColors, priorityColors, statusColors } from '@shared/config';
@@ -33,7 +33,6 @@ export const TaskDetails = ({
   onSubmit,
   onCancel,
 }: TaskDetailsProps): React.JSX.Element => {
-  console.log(initialValue, initialValue?.status ?? undefined);
   const form = useForm<FormValues>({
     mode: 'uncontrolled',
     initialValues: {
@@ -55,6 +54,18 @@ export const TaskDetails = ({
         value === unknownText ? 'Выберите категорию' : null,
     },
   });
+
+  useEffect(() => {
+    if (initialValue) {
+      form.setValues({
+        title: initialValue.title ?? '',
+        description: initialValue.description ?? '',
+        status: initialValue.status ?? '',
+        priority: initialValue.priority ?? '',
+        category: initialValue.category ?? '',
+      });
+    }
+  }, [initialValue]);
 
   const handleSubmit = (values: FormValues) => {
     const date = new Date();

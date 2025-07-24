@@ -1,53 +1,37 @@
-import { TaskDetails, tasksStore } from '@entities/task';
-import type { Task } from '@shared/types';
-import { useState, useEffect } from 'react';
+import { TaskDetails, useTaskById, useUpdateTask } from '@entities/task';
 import { useLocation, useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import type { Task } from '@shared/types';
+import { Loading } from '@shared/ui';
 
 export const TaskEditPage = (): React.JSX.Element => {
+  // задача в стейте при переходе с основной страницы
   const { state, pathname } = useLocation();
   const navigate = useNavigate();
-  const { fetchTaskById, isLoading, error, updateTask } = tasksStore;
-  const tasksId = pathname.replace(/^\/task\//, '');
-  const [task, setTask] = useState<Task | null>(null);
-
+  const taskId = pathname.replace(/^\/task\//, '');
+  // эта же задача на сервере
+  const { data: taskData, isPending, error, isError } = useTaskById(taskId);
+  const { mutateAsync: updateTask } = useUpdateTask();
+  const [task, setTask] = useState<Task | undefined>();
   useEffect(() => {
-    const ac = new AbortController();
-    const loadTask = async () => {
-      if (state) {
-        setTask(state as Task);
-        return;
-      }
+    if (state && !task) {
+      setTask(state as Task);
+      return;
+    }
+    if (taskData && !task) {
+      setTask(taskData);
+      return;
+    }
+    // если нет стейта и нет задачи на сервере
+    if (!task && !state && !isPending && !taskData) {
+      console.error('Нет задачи для редактирования');
+      navigate('/');
+      return;
+    }
+  }, [state, task, taskData, isPending, navigate]);
 
-      if (error) {
-        navigate('/');
-      }
-
-      if (tasksId) {
-        try {
-          const fetchedTask = await fetchTaskById(tasksId, ac.signal);
-          if (fetchedTask) {
-            setTask(fetchedTask);
-          } else {
-            navigate('/');
-          }
-        } catch (error) {
-          console.error('Ошибка загрузки таска:', error);
-          navigate('/');
-        }
-      } else {
-        navigate('/');
-      }
-    };
-
-    loadTask().then(() => console.log('loaded'));
-
-    return () => {
-      ac.abort();
-    };
-  }, [state, tasksId, error, navigate, fetchTaskById]);
-
-  const handleUpdateTask = async (task: Task) => {
-    await updateTask(task);
+  const handleUpdateTask = async (task: Partial<Task>) => {
+    await updateTask({ id: taskId, task });
     navigate('/');
   };
 
@@ -55,18 +39,21 @@ export const TaskEditPage = (): React.JSX.Element => {
     navigate('/');
   };
 
-  if (isLoading) {
-    return <main>Загрузка...</main>;
+  // если нет стейта клиента и ошибка при загрузке с сервера
+  if (!state && isError) {
+    return (
+      <Loading
+        isSadImageAllow
+        text={error instanceof Error ? error.message : 'ошибка загрузки'}
+      />
+    );
   }
 
-  if (error) {
-    return <main>{error}</main>;
+  // если нет стейта  и задача еще загружается
+  if (!state && isPending) {
+    return <Loading text="Загрузка" isSadImageAllow={false} />;
   }
-
-  if (!task) {
-    return <main>Загрузка...</main>;
-  }
-
+  // если есть стейт или задача загружена
   return (
     <main className="flex-1 flex flex-col justify-center items-center">
       <TaskDetails

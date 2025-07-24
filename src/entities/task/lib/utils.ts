@@ -4,9 +4,10 @@ import {
   priorityColors,
   statusColors,
 } from '@shared/config';
-import type { BadgeType } from '@shared/types';
 
-export const getBadgeColor = <T extends BadgeType>(type: T): string => {
+export const getBadgeColor = <T extends keyof typeof badgeColor>(
+  type: T,
+): string => {
   return badgeColor[type];
 };
 

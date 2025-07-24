@@ -1,27 +1,21 @@
-import { Card, Grid, Title } from '@mantine/core';
-import React, { useEffect } from 'react';
+import { tasksStore, TaskItem, useTasks, useDeleteTask } from '@entities/task';
+import { Card, Grid, Space, Title } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import confetti from 'canvas-confetti';
-import { tasksStore, TaskItem } from '@entities/task';
-import type { Task } from '@shared/types';
 import { observer } from 'mobx-react-lite';
+import type { Task } from '@shared/types';
+import React, { useEffect } from 'react';
+import confetti from 'canvas-confetti';
+import { ZodError } from 'zod/v4';
+import { Loading } from '@shared/ui';
 
 export const TaskList = observer((): React.JSX.Element => {
-  const { tasks, filteredTasks, fetchTasks, isLoading, error, deleteTask } =
-    tasksStore;
-
-  useEffect(() => {
-    const ab = new AbortController();
-    if (!tasks || tasks.length == 0) {
-      fetchTasks(ab.signal);
-    }
-    return () => {
-      ab.abort();
-    };
-  }, [tasks, fetchTasks]);
-  console.log(tasks);
+  const { data: tasks, isError, error, isPending } = useTasks();
+  const { mutateAsync: deleteTask } = useDeleteTask();
 
   const navigate = useNavigate();
+
+  const filteredTasks = tasksStore.getFilteredTasks(tasks || []);
+
   const taskClick = (task: Task) => {
     navigate(`task/${task.id}`, {
       state: {
@@ -79,24 +73,25 @@ export const TaskList = observer((): React.JSX.Element => {
     await new Promise((res) => setTimeout(res, 500));
   };
 
-  if (isLoading && !tasks) {
-    return (
-      <Card>
-        <Title>загрузка...</Title>
-      </Card>
-    );
+  if (isPending && !tasks) {
+    return <Loading isSadImageAllow={false} text="загрузка" />;
   }
 
-  if (error && !tasks) {
-    <Card>
-      <Title>{error}</Title>
-    </Card>;
+  if (isError && !tasks) {
+    return (
+      <>
+        <Loading
+          isSadImageAllow={false}
+          text={error instanceof ZodError ? error.message : 'ошибка загрузки'}
+        />
+      </>
+    );
   }
 
   return (
     <>
       <Grid justify="center" gutter="lg" overflow="hidden">
-        {filteredTasks.length === 0 && <>все сделано!</>}
+        {filteredTasks.length === 0 && <Space p="md">все сделано!</Space>}
         {filteredTasks.length !== 0 &&
           filteredTasks.map((el) => (
             <React.Fragment key={el.id}>

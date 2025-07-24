@@ -1,13 +1,9 @@
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Comic+Sans+MS&duration=1000&pause=1000&color=F7DE0A&width=435&lines=%D0%9E%D0%BF%D0%BE%D0%B7%D0%B4%D0%B0%D0%BB+%D0%BD%D0%B0+%D0%BD%D0%B5%D0%B4%D0%B5%D0%BB%D1%8E%2C+%D0%B5%D0%B5%D0%B5)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Comic+Sans+MS&duration=1000&pause=1000&color=F701DF&width=435&lines=%D0%9D%D1%83+%D1%83%D0%B6%D0%B5+%D0%B1%D1%8B%D1%81%D1%82%D1%80%D0%B5%D0%B5+%D1%87%D0%B5%D0%BC+2+%D0%B4%D0%BE%D0%BC%D0%B0%D1%88%D0%BA%D0%B0)](https://git.io/typing-svg)
 
-# Домашнее №2
+# Домашнее №3
 
-> кратко
-
-- [x] Сделал простенький API, вот тут можно посмотреть методы (если интересно) [swagger](https://todo-back-two-ivory.vercel.app/docs/index.html)
-- [x] Перевел все на FSD, не уверен, что правильно
-
-> длинно
-
-- [ ] Попробовал привязать реактивность MobX на кэш React-Query, не вышло, поэтому просто плохая реализация запросов к API [:(](https://www.npmjs.com/package/@mobx-ecosystem/mobx-react-query?activeTab=dependencies)
-- [x] Очент много ошибок на vercel было с деплоем бэка, в итоге перешел на Render. Типо vercel не мог обновлять файл с задачами. Потратил на это пару дней
+- [x] Обновил API express для PATCH запросов (раньше использовал PUT) [swagger](https://todo-back-two-ivory.vercel.app/docs/index.html)
+- [x] Наконец-то использую React-Query (Tanstak Query) для работы с API
+- [x] Перевел MobX на работу только с клиентской частью (фильтры)
+- [x] Валидирую запросы с помощью Zod
+- [x] Проверяю состояние сервера перед работой (сервер на Render долго запускается) и добавил новые лоадеры
