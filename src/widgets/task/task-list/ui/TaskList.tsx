@@ -1,5 +1,5 @@
 import { tasksStore, TaskItem, useTasks, useDeleteTask } from '@entities/task';
-import { Card, Grid, Space, Title } from '@mantine/core';
+import { Grid, Space } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import type { Task } from '@shared/types';
