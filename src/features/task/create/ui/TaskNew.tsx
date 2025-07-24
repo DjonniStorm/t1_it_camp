@@ -15,7 +15,6 @@ export const TaskNew = (): React.JSX.Element => {
       console.error('Error adding task', error);
       return;
     }
-    // await new Promise((res) => setTimeout(res, 500));
     navigate('/');
   };
   return (

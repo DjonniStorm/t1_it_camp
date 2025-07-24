@@ -6,6 +6,7 @@ import type { Task } from '@shared/types';
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { ZodError } from 'zod/v4';
+import { Loading } from '@shared/ui';
 
 export const TaskList = observer((): React.JSX.Element => {
   const { data: tasks, isError, error, isPending } = useTasks();
@@ -73,22 +74,16 @@ export const TaskList = observer((): React.JSX.Element => {
   };
 
   if (isPending && !tasks) {
-    return (
-      <Card>
-        <Title>загрузка...</Title>
-      </Card>
-    );
+    return <Loading isSadImageAllow={false} text="загрузка" />;
   }
 
   if (isError && !tasks) {
     return (
       <>
-        <Card>
-          <Title>
-            {error instanceof ZodError ? error.message : 'ошибка загрузки'}
-          </Title>
-        </Card>
-        ;
+        <Loading
+          isSadImageAllow={false}
+          text={error instanceof ZodError ? error.message : 'ошибка загрузки'}
+        />
       </>
     );
   }

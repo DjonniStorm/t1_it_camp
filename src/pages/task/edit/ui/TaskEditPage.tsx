@@ -2,6 +2,7 @@ import { TaskDetails, useTaskById, useUpdateTask } from '@entities/task';
 import { useLocation, useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
 import type { Task } from '@shared/types';
+import { Loading } from '@shared/ui';
 
 export const TaskEditPage = (): React.JSX.Element => {
   // задача в стейте при переходе с основной страницы
@@ -21,12 +22,13 @@ export const TaskEditPage = (): React.JSX.Element => {
       setTask(taskData);
       return;
     }
-    if (!task && !state && !taskData) {
+    // если нет стейта и нет задачи на сервере
+    if (!task && !state && !isPending && !taskData) {
       console.error('Нет задачи для редактирования');
       navigate('/');
       return;
     }
-  }, [state, task, taskData, navigate]);
+  }, [state, task, taskData, isPending, navigate]);
 
   const handleUpdateTask = async (task: Partial<Task>) => {
     await updateTask({ id: taskId, task });
@@ -39,12 +41,17 @@ export const TaskEditPage = (): React.JSX.Element => {
 
   // если нет стейта клиента и ошибка при загрузке с сервера
   if (!state && isError) {
-    return <main>{JSON.stringify(error)}</main>;
+    return (
+      <Loading
+        isSadImageAllow
+        text={error instanceof Error ? error.message : 'ошибка загрузки'}
+      />
+    );
   }
 
   // если нет стейта  и задача еще загружается
   if (!state && isPending) {
-    return <main>Загрузка...</main>;
+    return <Loading text="Загрузка" isSadImageAllow={false} />;
   }
   // если есть стейт или задача загружена
   return (

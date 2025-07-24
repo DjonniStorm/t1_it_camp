@@ -33,7 +33,6 @@ export const TaskDetails = ({
   onSubmit,
   onCancel,
 }: TaskDetailsProps): React.JSX.Element => {
-  console.log('initial value', initialValue, initialValue?.status ?? undefined);
   const form = useForm<FormValues>({
     mode: 'uncontrolled',
     initialValues: {

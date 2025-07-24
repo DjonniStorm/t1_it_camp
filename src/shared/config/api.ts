@@ -6,4 +6,5 @@ const defaultTasksUrl = '/api/tasks';
 export const AVAILABLE_ENDPOINTS = {
   default: defaultTasksUrl,
   byId: (id: string) => `${defaultTasksUrl}/${id}`,
+  healthCheck: '/health-check',
 } as const;
